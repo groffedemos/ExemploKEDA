@@ -79,11 +79,5 @@ jobs:
         path: ${{ env.CAMINHO_YAML_DEPLOYMENT }}
         retention-days: 30
 
-    - name: Azure Kubernetes Service - Deployment de Web App
-      uses: Azure/k8s-deploy@v1.3
-      with:
-        namespace: ${{ env.NAMESPACE_K8S }}
-        manifests: |
-          ${{ env.CAMINHO_YAML_DEPLOYMENT }}
-        images: |
-          '${{ env.IMAGEM_AZURECR }}:${{ github.run_number }}'
+    - name: Kubernetes - Deployment da Function App no AKS
+      run: kubectl apply -f ${{ env.CAMINHO_YAML_DEPLOYMENT }} --namespace ingress-nginx
