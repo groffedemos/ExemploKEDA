@@ -54,8 +54,16 @@ jobs:
         resource-group: ${{ env.AZURE_RESOURCE_GROUP_K8S }}
         cluster-name:  ${{ env.AZURE_CLUSTER_K8S }}
 
-    - name: 'Instalar Azure Functions Core Tools v3'
+    - name: Instalar Azure Functions Core Tools v3
       run: npm i azure-functions-core-tools@3
 
-    - name: 'Testar instalação - Azure Functions Core Tools v3'
+    - name: Testar instalação - Azure Functions Core Tools v3
       run: npx func
+      
+    - name: Gerar YAML para Deployment da Function App
+      run: |
+        echo ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER
+        npx func kubernetes deploy --name functionappcontagem --image-name ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER --namespace ingress-nginx --dry-run > deployment-keda.yml
+
+    - name: Exibir conteúdo com o YAML para Deployment da Function App
+      run: cat deployment-keda.yml
