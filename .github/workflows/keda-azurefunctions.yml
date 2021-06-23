@@ -8,6 +8,7 @@ on:
 env:
   IMAGEM_DOCKERHUB: ${{ secrets.DOCKERHUB_USERNAME }}/functionappcontagem
   CAMINHO_PROJETO_FUNCTIONAPP: ./FunctionAppContagem
+  CAMINHO_YAML_DEPLOYMENT: ./FunctionAppContagem/deployment-keda.yml
   AZURE_RESOURCE_GROUP_K8S: TesteKubernetes
   AZURE_CLUSTER_K8S: AKSCluster
   
@@ -41,9 +42,6 @@ jobs:
 
   deployment-aks:
     needs: [build-dockerhub]
-    
-    env:
-      CAMINHO_YAML_DEPLOYMENT: ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}/deployment-keda.yml
     
     runs-on: ubuntu-latest
 
