@@ -63,6 +63,7 @@ jobs:
     - name: Gerar YAML para Deployment da Function App
       run: |
         echo ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER
+        cd ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}
         npx func kubernetes deploy --name functionappcontagem --image-name ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER --namespace ingress-nginx --dry-run > deployment-keda.yml
 
     - name: Exibir conteúdo com o YAML para Deployment da Function App
