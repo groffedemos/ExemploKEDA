@@ -19,6 +19,7 @@ jobs:
     - name: Build de imagem
       run: |
         cd ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}
+        ls
         docker build . --file Dockerfile --tag ${{ env.IMAGEM_DOCKERHUB }}:latest
         docker tag ${{ env.IMAGEM_DOCKERHUB }}:latest ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER
 
