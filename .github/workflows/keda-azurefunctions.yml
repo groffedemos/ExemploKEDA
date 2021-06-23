@@ -42,6 +42,9 @@ jobs:
   deployment-aks:
     needs: [build-dockerhub]
     
+    env:
+      CAMINHO_YAML_DEPLOYMENT: ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}/deployment-keda.yml
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -73,10 +76,16 @@ jobs:
 
     - name: Upload do YAML para Deployment como Artifact
       uses: actions/upload-artifact@v2.2.4
-      if: always()
-      env:
-        CAMINHO_YAML_DEPLOYMENT: ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}/deployment-keda.yml
       with:
         name: deployment-keda
         path: ${{ env.CAMINHO_YAML_DEPLOYMENT }}
         retention-days: 30
+
+    - name: Azure Kubernetes Service - Deployment de Web App
+      uses: Azure/k8s-deploy@v1.3
+      with:
+        namespace: ${{ env.NAMESPACE_K8S }}
+        manifests: |
+          ${{ env.CAMINHO_YAML_DEPLOYMENT }}
+        images: |
+          '${{ env.IMAGEM_AZURECR }}:${{ github.run_number }}'
