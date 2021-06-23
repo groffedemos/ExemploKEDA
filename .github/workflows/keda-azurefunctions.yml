@@ -70,3 +70,13 @@ jobs:
       run: |
         cd ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}
         cat deployment-keda.yml
+
+    - name: Upload do YAML para Deployment como Artifact
+      uses: actions/upload-artifact@v2.2.4
+      if: always()
+      env:
+        CAMINHO_YAML_DEPLOYMENT: ${{ env.CAMINHO_PROJETO_FUNCTIONAPP }}/deployment-keda.yml
+      with:
+        name: deployment-keda
+        path: ${{ env.CAMINHO_YAML_DEPLOYMENT }}
+        retention-days: 30
