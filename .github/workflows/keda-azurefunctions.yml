@@ -53,3 +53,9 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }} 
         resource-group: ${{ env.AZURE_RESOURCE_GROUP_K8S }}
         cluster-name:  ${{ env.AZURE_CLUSTER_K8S }}
+
+    - name: 'Instalar Azure Functions Core Tools v3'
+      run: npm i azure-functions-core-tools@3
+
+    - name: 'Testar instalação - Azure Functions Core Tools v3'
+      run: npx func
